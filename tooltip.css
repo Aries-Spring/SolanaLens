@@ -1,0 +1,364 @@
+/* SolanaLens — scoped under .sl- prefix and #solana-lens-tooltip to avoid page conflicts */
+
+/* Full addresses in plain text — dashed underline */
+.solana-lens-addr {
+  border-bottom: 1px solid rgba(153, 69, 255, 0.45);
+  cursor: help;
+  transition: border-color 100ms ease-out, background 100ms ease-out;
+  border-radius: 1px;
+}
+
+@media (hover: hover) {
+  .solana-lens-addr:hover {
+    border-bottom-color: #9945FF;
+    background: rgba(153, 69, 255, 0.07);
+    border-radius: 2px;
+  }
+}
+
+.solana-lens-addr:focus-visible {
+  outline: 2px solid rgba(153, 69, 255, 0.7);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Truncated addresses detected via <a href> — subtle purple underline on hover.
+   Doesn't override the link's existing text-decoration; uses outline-like border instead. */
+a[data-sl-addr]:not(.solana-lens-addr) {
+  transition: box-shadow 100ms ease-out;
+}
+
+@media (hover: hover) {
+  a[data-sl-addr]:not(.solana-lens-addr):hover {
+    box-shadow: 0 1px 0 0 rgba(153, 69, 255, 0.55);
+  }
+}
+
+/* ─── Tooltip container ────────────────────────────────────────────────────── */
+
+#solana-lens-tooltip {
+  position: fixed;
+  z-index: 2147483647;
+  width: 268px;
+
+  background: rgba(10, 9, 18, 0.97);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+
+  border: 1px solid rgba(153, 69, 255, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 8px 40px rgba(0, 0, 0, 0.55),
+    0 0 0 0.5px rgba(153, 69, 255, 0.08);
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  color: #fff;
+  line-height: 1.4;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(5px) scale(0.98);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #solana-lens-tooltip {
+    transition:
+      opacity 140ms ease-out,
+      transform 140ms ease-out;
+  }
+  #solana-lens-tooltip.sl-hiding {
+    transition:
+      opacity 90ms ease-in,
+      transform 90ms ease-in;
+  }
+}
+
+#solana-lens-tooltip.sl-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+#solana-lens-tooltip.sl-hiding {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(3px) scale(0.99);
+}
+
+/* Gradient accent bar */
+#solana-lens-tooltip::before {
+  content: '';
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, #9945FF 0%, #14F195 100%);
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+
+.sl-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px 0;
+  gap: 6px;
+}
+
+.sl-address {
+  font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.sl-copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0;
+  transition: color 100ms ease-out, background 100ms ease-out;
+}
+
+.sl-copy-btn:hover {
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.sl-copy-btn:active {
+  transform: scale(0.92);
+}
+
+.sl-copy-btn:focus-visible {
+  outline: 2px solid rgba(153, 69, 255, 0.65);
+  outline-offset: 1px;
+}
+
+.sl-copy-btn.sl-copied {
+  color: #14F195;
+}
+
+.sl-copy-btn.sl-copied svg {
+  display: none;
+}
+
+.sl-copy-btn.sl-copied::after {
+  content: '✓';
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ─── Body ───────────────────────────────────────────────────────────────── */
+
+.sl-body {
+  padding: 10px 12px 12px;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sl-body {
+    transition: opacity 100ms ease-out;
+  }
+  .sl-body.sl-fade-in {
+    animation: sl-fadein 120ms ease-out both;
+  }
+}
+
+@keyframes sl-fadein {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Balance row */
+.sl-balance-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 11px;
+}
+
+.sl-orb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9945FF, #14F195);
+  flex-shrink: 0;
+  margin-top: 2px; /* optical alignment with cap-height */
+}
+
+.sl-amounts {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.sl-sol-amount {
+  font-size: 19px;
+  font-weight: 600;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.sl-sol-symbol {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0;
+  margin-left: 3px;
+}
+
+.sl-usd-amount {
+  font-size: 12px;
+  color: #14F195;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  opacity: 0.8;
+}
+
+/* Stats grid */
+.sl-stats {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 10px;
+  gap: 0;
+}
+
+.sl-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sl-stat + .sl-stat {
+  padding-left: 14px;
+  margin-left: 14px;
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sl-stat-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.sl-stat-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  white-space: nowrap;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+
+.sl-footer {
+  padding: 0 12px 11px;
+}
+
+.sl-explorer-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none !important;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 100ms ease-out, color 100ms ease-out, border-color 100ms ease-out;
+}
+
+.sl-explorer-link:hover {
+  background: rgba(153, 69, 255, 0.12);
+  color: #fff;
+  border-color: rgba(153, 69, 255, 0.28);
+  text-decoration: none !important;
+}
+
+.sl-explorer-link:focus-visible {
+  outline: 2px solid rgba(153, 69, 255, 0.65);
+  outline-offset: 1px;
+}
+
+/* ─── Skeleton loading ───────────────────────────────────────────────────── */
+
+.sl-skel {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sl-skel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.055) 50%,
+      transparent 100%
+    );
+    animation: sl-shimmer 1.4s linear infinite;
+  }
+
+  @keyframes sl-shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+}
+
+.sl-skel-balance {
+  height: 22px;
+  width: 130px;
+  margin-bottom: 7px;
+}
+
+.sl-skel-usd {
+  height: 13px;
+  width: 72px;
+  margin-bottom: 13px;
+}
+
+.sl-skel-stat {
+  height: 30px;
+  border-radius: 4px;
+}
+
+/* ─── Error state ────────────────────────────────────────────────────────── */
+
+.sl-error-msg {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  padding: 4px 0 2px;
+  text-align: center;
+}

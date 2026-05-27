@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SolanaLens</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+
+    <header class="popup-header">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true"></div>
+        <span class="brand-name">SolanaLens</span>
+      </div>
+      <label class="toggle" aria-label="Enable SolanaLens">
+        <input type="checkbox" id="enabledToggle" checked>
+        <span class="toggle-track" aria-hidden="true"></span>
+      </label>
+    </header>
+
+    <div class="popup-body">
+
+      <div class="field">
+        <label class="field-label" for="rpcInput">RPC endpoint</label>
+        <div class="field-row">
+          <input
+            type="url"
+            id="rpcInput"
+            class="field-input"
+            placeholder="https://api.mainnet-beta.solana.com"
+            autocomplete="off"
+            spellcheck="false"
+            autocapitalize="off"
+          >
+          <button class="reset-btn" id="resetBtn" type="button" aria-label="Reset to default RPC">
+            Reset
+          </button>
+        </div>
+        <p class="field-hint">Leave blank to use Solana's public RPC</p>
+      </div>
+
+      <p class="status" id="statusMsg" aria-live="polite" aria-atomic="true"></p>
+
+    </div>
+
+    <footer class="popup-footer">
+      <button class="save-btn" id="saveBtn" type="button">Save</button>
+    </footer>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

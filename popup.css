@@ -1,0 +1,259 @@
+:root {
+  --purple: #9945FF;
+  --green: #14F195;
+  --bg: #0B0A14;
+  --surface: #131120;
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #ffffff;
+  --text-dim: rgba(255, 255, 255, 0.45);
+  --radius: 8px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  width: 300px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────────────────── */
+
+.popup {
+  padding: 0;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.brand-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--purple), var(--green));
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* ─── Toggle ─────────────────────────────────────────────────────────────── */
+
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-track {
+  width: 36px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  position: relative;
+  transition: background 150ms ease-out;
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transition: transform 150ms ease-out, background 150ms ease-out;
+}
+
+.toggle input:checked + .toggle-track {
+  background: linear-gradient(90deg, var(--purple), #52d9a4);
+}
+
+.toggle input:checked + .toggle-track::after {
+  transform: translateX(16px);
+  background: #fff;
+}
+
+.toggle input:focus-visible + .toggle-track {
+  outline: 2px solid var(--purple);
+  outline-offset: 2px;
+}
+
+/* ─── Body ───────────────────────────────────────────────────────────────── */
+
+.popup-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ─── Field ──────────────────────────────────────────────────────────────── */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-dim);
+}
+
+.field-row {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.field-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  font-size: 11.5px;
+  padding: 8px 10px;
+  outline: none;
+  transition: border-color 100ms ease-out;
+}
+
+.field-input::placeholder {
+  color: rgba(255, 255, 255, 0.18);
+}
+
+.field-input:focus {
+  border-color: rgba(153, 69, 255, 0.55);
+}
+
+.field-hint {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
+
+.reset-btn {
+  padding: 0 10px;
+  height: 34px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 100ms ease-out, border-color 100ms ease-out, background 100ms ease-out;
+}
+
+.reset-btn:hover {
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.reset-btn:focus-visible {
+  outline: 2px solid rgba(153, 69, 255, 0.65);
+  outline-offset: 1px;
+}
+
+.reset-btn:active {
+  transform: scale(0.97);
+}
+
+/* ─── Status ─────────────────────────────────────────────────────────────── */
+
+.status {
+  font-size: 12px;
+  min-height: 1em;
+  color: var(--green);
+  transition: opacity 150ms ease-out;
+}
+
+.status:empty {
+  opacity: 0;
+}
+
+.status.error {
+  color: #ff6b6b;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+
+.popup-footer {
+  padding: 0 16px 16px;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 9px 16px;
+  background: linear-gradient(90deg, var(--purple), #6a2fd4);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: opacity 100ms ease-out;
+}
+
+.save-btn:hover {
+  opacity: 0.88;
+}
+
+.save-btn:active {
+  transform: scale(0.98);
+}
+
+.save-btn:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
