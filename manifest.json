@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "description": "Hover over any Solana address to instantly see wallet balance and info",
   "minimum_chrome_version": "93",
+  "homepage_url": "https://github.com/Aries-Spring/SolanaLens",
   "permissions": ["storage"],
   "host_permissions": ["<all_urls>"],
   "background": {
